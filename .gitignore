@@ -62,7 +62,11 @@ db.sqlite3
 db.sqlite3-journal
 .sqlite3
 .sqlite
+<<<<<<< HEAD
 db.json
+=======
+.json
+>>>>>>> ce44fca3ab70fce68cdcb75e6f07e0f778b358f9
 
 # Flask stuff:
 instance/
