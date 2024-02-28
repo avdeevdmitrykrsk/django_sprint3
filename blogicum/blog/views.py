@@ -9,9 +9,7 @@ POST_COUNT: int = 5
 
 
 def index(request: HttpRequest) -> HttpResponse:
-    '''
-    View-функция рендерит главную страницу с данными из БД.
-    '''
+    """View-функция рендерит главную страницу с данными из БД."""
     template_name: str = 'blog/index.html'
     post_list: QuerySet = Post.objects.select_related(
         'author', 'category', 'location'
@@ -27,10 +25,7 @@ def index(request: HttpRequest) -> HttpResponse:
 
 
 def post_detail(request: HttpRequest, post_id: int) -> HttpResponse:
-    '''
-    View-функция рендерит страницу с описанием
-    конкретного товара.
-    '''
+    """View-функция рендерит страницу с описаниемконкретного товара."""
     template_name: str = 'blog/detail.html'
     post: object = get_object_or_404(
         Post.objects.select_related(
@@ -47,9 +42,7 @@ def post_detail(request: HttpRequest, post_id: int) -> HttpResponse:
 
 
 def category_posts(request: HttpRequest, category_slug: str) -> HttpResponse:
-    '''
-    View-функция рендерит страницу категории с постами указаной категории.
-    '''
+    """View-функция рендерит страницу с постами указаной категории."""
     template_name: str = 'blog/category.html'
     post_list: QuerySet = Post.objects.select_related(
         'author', 'category', 'location'

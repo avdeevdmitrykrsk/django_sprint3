@@ -26,7 +26,6 @@ class Category(PublishedCreatedModel):
 
 
 class Location(PublishedCreatedModel):
-
     name = models.CharField('Название места', max_length=256)
 
     class Meta:
@@ -38,7 +37,6 @@ class Location(PublishedCreatedModel):
 
 
 class Post(PublishedCreatedModel):
-
     title = models.CharField('Заголовок', max_length=256)
     text = models.TextField('Текст')
     pub_date = models.DateTimeField(
