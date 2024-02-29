@@ -8,22 +8,21 @@ from .models import Category, Post
 POST_COUNT: int = 5
 
 
-def get_post() -> QuerySet:
+def posts_queryset_get() -> QuerySet:
     """Функция получает необходимый(ые)/пост(ы) и передает во view-функции."""
-    post: QuerySet = Post.objects.select_related(
+    return Post.objects.select_related(
         'author', 'category', 'location'
     ).filter(
         pub_date__lte=now(),
         is_published=True,
         category__is_published=True
     )
-    return post
 
 
 def index(request: HttpRequest) -> HttpResponse:
     """View-функция рендерит главную страницу с данными из БД."""
     template_name: str = 'blog/index.html'
-    post_list: QuerySet = get_post()[:POST_COUNT]
+    post_list: QuerySet = posts_queryset_get()[:POST_COUNT]
     context: dict = {
         'post_list': post_list
     }
@@ -33,12 +32,7 @@ def index(request: HttpRequest) -> HttpResponse:
 def post_detail(request: HttpRequest, post_id: int) -> HttpResponse:
     """View-функция рендерит страницу с описаниемконкретного товара."""
     template_name: str = 'blog/detail.html'
-    post: object = get_object_or_404(
-        get_post().filter(pk=post_id),
-        pub_date__lt=now(),
-        is_published=True,
-        category__is_published=True
-    )
+    post: object = get_object_or_404(posts_queryset_get().filter(pk=post_id))
     context: dict = {
         'post': post
     }
@@ -48,7 +42,9 @@ def post_detail(request: HttpRequest, post_id: int) -> HttpResponse:
 def category_posts(request: HttpRequest, category_slug: str) -> HttpResponse:
     """View-функция рендерит страницу с постами указаной категории."""
     template_name: str = 'blog/category.html'
-    post_list: QuerySet = get_post().filter(category__slug=category_slug)
+    post_list: QuerySet = posts_queryset_get().filter(
+        category__slug=category_slug
+    )
     category: object = get_object_or_404(
         Category.objects.values('title', 'description')
         .filter(is_published=True),
