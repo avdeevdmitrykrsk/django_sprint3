@@ -1,9 +1,9 @@
+from blog.models import Category, Post
+
 from django.db.models import QuerySet
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import get_object_or_404, render
 from django.utils.timezone import now
-
-from blog.models import Category, Post
 
 POST_COUNT: int = 5
 
